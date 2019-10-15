@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  mongo:
+    image: mongo
+  redis:
+    image: redis
+  api:
+    build: .
+    environment:
+      - REDIS_ADDRESS=redis:6379
+      - MONGO_ADDRESS=mongodb://mongo:27017
+      - MONGO_DATABASE=test
+      - TINYURL_PORT=3000
+      - GIN_MODE=release
+    ports:
+      - "80:3000"
+    depends_on:
+      - mongo
+      - redis
